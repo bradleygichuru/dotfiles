@@ -8,9 +8,8 @@ import XMonad.Util.SpawnOnce
 
 main = do
     xmproc <- spawnPipe "xmobar"
-    xmproc0 <- spawnPipe "xfce4-screensaver &"
 
-    xmonad $ docks defaultConfigi
+    xmonad $ docks defaultConfig
         { manageHook = manageDocks <+> manageHook defaultConfig
         , layoutHook = avoidStruts  $  layoutHook defaultConfig
         , logHook = dynamicLogWithPP xmobarPP
@@ -24,12 +23,12 @@ main = do
 	, normalBorderColor  = "#000000"
         } `additionalKeys`
         [ ((mod4Mask .|. shiftMask, xK_z), spawn "xfce4-screensaver-command -a")
-        , ((controlMask, xK_Print), spawn "sleep 0.2; scrot -s")
-        , ((0, xK_Print), spawn "scrot")
+        , ((controlMask, xK_j), spawn "pulseaudio-ctl up")
+        , ((controlMask, xK_k), spawn "pulseaudio-ctl down")
         
         ]
 
 myStartupHook = do
                 spawnOnce "nitrogen --restore &"
                 spawnOnce "picom &"
-		spawnOnce "xinput set-prop 12 320 &"
+		spawnOnce "xinput set-prop 12 322 1 &"
