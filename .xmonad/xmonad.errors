@@ -1,0 +1,7 @@
+
+xmonad.hs:13:20: error:
+    • Variable not in scope: defaultConfigi :: XConfig l0
+    • Perhaps you meant ‘defaultConfig’ (imported from XMonad)
+   |
+13 |     xmonad $ docks defaultConfigi
+   |                    ^^^^^^^^^^^^^^

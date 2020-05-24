@@ -1,0 +1,36 @@
+
+
+Config { font    = "xft:Mononoki Nerd Font:pixelsize=12:antialias=true:hinting=true"
+       , additionalFonts = [ "xft:FontAwesome:pixelsize=13" ]
+       , bgColor = "#282A36"
+       , fgColor = "#B45BCF"
+       , position = Top
+       , lowerOnStart = True
+       , hideOnStart = False
+       , allDesktops = True
+       , persistent = True
+       , commands = [ 
+                	 Run Network "enp1s0" ["-L","0","-H","32","--normal","green","--high","red"] 10
+                        , Run Network "wlp2s0" ["-L","0","-H","32","--normal","green","--high","red"] 10
+                        , Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10
+                        , Run Memory ["-t","Mem: <usedratio>%"] 10
+                        , Run Swap [] 10
+                        , Run Com "uname" ["-s","-r"] "" 36000
+                        , Run Date "%a %b %_d %Y %H:%M:%S" "date" 10
+			, Run Battery [
+	"-t", "<acstatus>: <left>% - <timeleft>",
+	"--",
+	--"-c", "charge_full",
+	"-O", "AC",
+	"-o", "Bat",
+	"-h", "green",
+	"-l", "red"
+	] 10
+        , Run StdinReader
+                        ]
+        , sepChar = "%"
+        , alignSep = "}{"
+        , template = "%StdinReader% < %cpu% >< %memory% * %swap% > < %wlp2s0% - %enp1s0% > < %date% >< %battery% >"
+        }
+
+
