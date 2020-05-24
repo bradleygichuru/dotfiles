@@ -1,0 +1,1 @@
+/home/bradley/.local/share/broot/launcher/fish/br.fish

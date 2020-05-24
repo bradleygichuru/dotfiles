@@ -1,0 +1,9 @@
+package https://github.com/jethrokuan/fzf
+package vcs
+theme bira
+theme chain
+theme default
+theme plain
+theme pure
+theme sushi
+theme tomita
