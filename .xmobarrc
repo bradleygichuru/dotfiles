@@ -1,4 +1,6 @@
-
+-- http://projects.haskell.org/xmobar/
+-- install xmobar with these flags: --flags="with_alsa" --flags="with_mpd" --flags="with_xft"  OR --flags="all_extensions"
+-- you can find weather location codes here: http://weather.noaa.gov/index.html
 
 Config { font    = "xft:Mononoki Nerd Font:pixelsize=12:antialias=true:hinting=true"
        , additionalFonts = [ "xft:FontAwesome:pixelsize=13" ]
@@ -9,28 +11,26 @@ Config { font    = "xft:Mononoki Nerd Font:pixelsize=12:antialias=true:hinting=t
        , hideOnStart = False
        , allDesktops = True
        , persistent = True
+       , iconRoot = "/home/dt/.xmonad/xpm/"  -- default: "."
        , commands = [ 
-                	 Run Network "enp1s0" ["-L","0","-H","32","--normal","green","--high","red"] 10
-                        , Run Network "wlp2s0" ["-L","0","-H","32","--normal","green","--high","red"] 10
-                        , Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10
-                        , Run Memory ["-t","Mem: <usedratio>%"] 10
-                        , Run Swap [] 10
-                        , Run Com "uname" ["-s","-r"] "" 36000
-                        , Run Date "%a %b %_d %Y %H:%M:%S" "date" 10
-			, Run Battery [
-	"-t", "<acstatus>: <left>% - <timeleft>",
-	"--",
-	--"-c", "charge_full",
-	"-O", "AC",
-	"-o", "Bat",
-	"-h", "green",
-	"-l", "red"
-	] 10
-        , Run StdinReader
-                        ]
-        , sepChar = "%"
-        , alignSep = "}{"
-        , template = "%StdinReader% < %cpu% >< %memory% * %swap% > < %wlp2s0% - %enp1s0% > < %date% >< %battery% >"
-        }
-
+                      -- Time and date
+                      Run Date "\xf133 %b %d %Y (%H:%M)" "date" 50
+                      -- Network up and down
+                    , Run Network "enp1s0" ["-t", "\xf0aa <rx>kb  \xf0ab <tx>kb"] 20
+		      -- WIFI --
+		    ,  Run Network "wlp2s0" ["-t", "\xf0aa <rx>kb  \xf0ab <tx>kb"] 20
+                      -- Cpu usage in percent
+                    , Run Cpu ["-t", "\xf108 cpu: (<total>%)","-H","50","--high","red"] 20
+                      -- Ram used number and percent
+                    , Run Memory ["-t", "\xf233 mem: <used>M (<usedratio>%)"] 20
+                      -- Kernel --
+                    , Run Com "uname" ["-r"] "" 36000
+                      -- Prints out the left side items such as workspaces, layout, etc.
+                      -- The workspaces are 'clickable' in my configs.
+                    , Run UnsafeStdinReader
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = " <fc=#666666>|</fc> %UnsafeStdinReader% }{ <fc=#b3afc2> %uname% </fc><fc=#666666>| </fc><fc=#FFB86C>%cpu% </fc><fc=#666666>| </fc><fc=#FF5555>%memory% </fc><fc=#666666>| </fc><fc=#c3e88d>%enp1s0% </fc><fc=#666666>| </fc><fc=#c3e88d>%wlp2s0% </fc><fc=#666666>| </fc><fc=#8BE9FD>%date%</fc> "
+       }
 
